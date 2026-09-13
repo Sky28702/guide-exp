@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/* -----------------------------
+   Base
+----------------------------- */
+
+:root {
+  --background: #f4f1eb;
+  --foreground: #171717;
+  --border: #d9d5cd;
+  --accent: #b88645;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* -----------------------------
+   Leaflet 2D Map
+----------------------------- */
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: #e8e5df;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Zoom controls */
+
+.leaflet-control-zoom {
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  overflow: hidden;
+  box-shadow: none !important;
+}
+
+.leaflet-control-zoom a {
+  width: 32px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+
+  background: white !important;
+  color: #171717 !important;
+
+  border: 0 !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.leaflet-control-zoom a:last-child {
+  border-bottom: 0 !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: #f4f1eb !important;
+}
+
+/* Attribution */
+
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.85) !important;
+  color: #666 !important;
+  font-size: 9px !important;
+}
+
+.leaflet-control-attribution a {
+  color: #555 !important;
+}
+
+/* -----------------------------
+   Parcel / Collateral Styling
+----------------------------- */
+
+.parcel-marker {
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+
+  background: var(--accent);
+  border: 3px solid white;
+
+  box-shadow:
+    0 0 0 1px var(--accent),
+    0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.parcel-marker.clear {
+  background: #287a4b;
+  box-shadow:
+    0 0 0 1px #287a4b,
+    0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.parcel-marker.encumbered {
+  background: #b33a3a;
+  box-shadow:
+    0 0 0 1px #b33a3a,
+    0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* -----------------------------
+   Leaflet Popup
+----------------------------- */
+
+.leaflet-popup-content-wrapper {
+  border-radius: 10px !important;
+  padding: 0 !important;
+}
+
+.leaflet-popup-content {
+  margin: 14px !important;
+}
+
+.leaflet-popup-tip {
+  background: white !important;
+}
+
+/* -----------------------------
+   General
+----------------------------- */
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--accent);
+  color: white;
+}
