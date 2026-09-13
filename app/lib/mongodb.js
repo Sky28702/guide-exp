@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI =
-  "mongodb://prateekrai462:Hiallguys76%2B@ac-uofz5ty-shard-00-00.byn7xrv.mongodb.net:27017,ac-uofz5ty-shard-00-01.byn7xrv.mongodb.net:27017,ac-uofz5ty-shard-00-02.byn7xrv.mongodb.net:27017/?ssl=true&replicaSet=atlas-qwmc2k-shard-0&authSource=admin&appName=Cluster0";
-console.log("MONGO DEBUG:", JSON.stringify(MONGODB_URI.slice(0, 30)));
+const MONGODB_URI = process.env.MONGODB_URI;
 
 let cached = global.mongoose;
 

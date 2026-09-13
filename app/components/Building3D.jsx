@@ -11,7 +11,7 @@ const COLOR = {
   paper: 0xe9eeec,
   brass: 0xc99a4b,
   alert: 0xd2574a,
-  ok: 0x4f9c82
+  ok: 0x4f9c82,
 };
 
 const FOOTPRINT_LEN = 54;
@@ -20,11 +20,7 @@ const BUILD_TOP = 17.5;
 const BUILD_BOTTOM = -3.5;
 
 function toScene(x, y, z) {
-  return [
-    x - FOOTPRINT_LEN / 2,
-    z,
-    y - FOOTPRINT_WID / 2
-  ];
+  return [x - FOOTPRINT_LEN / 2, z, y - FOOTPRINT_WID / 2];
 }
 
 export default function Building3D({
@@ -33,7 +29,7 @@ export default function Building3D({
   selectedFloorId,
   selectedUnitId,
   onSelectFloor,
-  onSelectUnit
+  onSelectUnit,
 }) {
   const mountRef = useRef(null);
   const stateRef = useRef({});
@@ -47,18 +43,13 @@ export default function Building3D({
 
     const scene = new THREE.Scene();
 
-    const camera = new THREE.PerspectiveCamera(
-      42,
-      width / height,
-      0.1,
-      500
-    );
+    const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 500);
 
     camera.position.set(62, 42, 62);
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
-      alpha: true
+      alpha: true,
     });
 
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -85,12 +76,7 @@ export default function Building3D({
     fill.position.set(-30, 20, -40);
     scene.add(fill);
 
-    const grid = new THREE.GridHelper(
-      140,
-      40,
-      COLOR.line,
-      COLOR.line
-    );
+    const grid = new THREE.GridHelper(140, 40, COLOR.line, COLOR.line);
 
     grid.position.y = BUILD_BOTTOM - 0.01;
     grid.material.transparent = true;
@@ -106,21 +92,14 @@ export default function Building3D({
     function handleClick(event) {
       const rect = renderer.domElement.getBoundingClientRect();
 
-      pointer.x =
-        ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      pointer.y =
-        -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
       raycaster.setFromCamera(pointer, camera);
 
-      const hits = raycaster.intersectObjects(
-        modelGroup.children,
-        true
-      );
+      const hits = raycaster.intersectObjects(modelGroup.children, true);
 
-      const hit = hits.find(
-        (item) => item.object.userData?.selectable
-      );
+      const hit = hits.find((item) => item.object.userData?.selectable);
 
       if (!hit) return;
 
@@ -167,16 +146,13 @@ export default function Building3D({
       controls,
       modelGroup,
       onSelectFloor,
-      onSelectUnit
+      onSelectUnit,
     };
 
     return () => {
       cancelAnimationFrame(frameId);
       resizeObserver.disconnect();
-      renderer.domElement.removeEventListener(
-        "click",
-        handleClick
-      );
+      renderer.domElement.removeEventListener("click", handleClick);
       controls.dispose();
       renderer.dispose();
 
@@ -227,14 +203,12 @@ export default function Building3D({
               floor,
               unit,
               isFloorSelected,
-              unit.id === selectedUnitId
-            )
+              unit.id === selectedUnitId,
+            ),
           );
         });
       } else {
-        modelGroup.add(
-          buildSlabMesh(floor, isFloorSelected)
-        );
+        modelGroup.add(buildSlabMesh(floor, isFloorSelected));
       }
     });
   }, [floors, structure, selectedFloorId, selectedUnitId]);
@@ -242,34 +216,26 @@ export default function Building3D({
   return (
     <div
       ref={mountRef}
-      className="w-full h-[420px] lg:h-full min-h-[420px] border border-line"
+      className="w-full h-105 lg:h-full min-h-105 border border-line"
     />
   );
 }
 
 function buildShell() {
   const height = BUILD_TOP - BUILD_BOTTOM;
-  const geometry = new THREE.BoxGeometry(
-    FOOTPRINT_LEN,
-    height,
-    FOOTPRINT_WID
-  );
+  const geometry = new THREE.BoxGeometry(FOOTPRINT_LEN, height, FOOTPRINT_WID);
 
   const edges = new THREE.EdgesGeometry(geometry);
 
   const material = new THREE.LineBasicMaterial({
     color: COLOR.muted,
     transparent: true,
-    opacity: 0.55
+    opacity: 0.55,
   });
 
   const line = new THREE.LineSegments(edges, material);
 
-  line.position.set(
-    0,
-    BUILD_BOTTOM + height / 2,
-    0
-  );
+  line.position.set(0, BUILD_BOTTOM + height / 2, 0);
 
   return line;
 }
@@ -278,26 +244,17 @@ function buildColumns(structure) {
   const group = new THREE.Group();
   const height = BUILD_TOP - BUILD_BOTTOM;
 
-  const geometry = new THREE.CylinderGeometry(
-    0.14,
-    0.14,
-    height,
-    8
-  );
+  const geometry = new THREE.CylinderGeometry(0.14, 0.14, height, 8);
 
   const material = new THREE.MeshStandardMaterial({
     color: COLOR.line,
-    roughness: 0.9
+    roughness: 0.9,
   });
 
   (structure.columnGrid?.xs || []).forEach((x) => {
     (structure.columnGrid?.ys || []).forEach((y) => {
       const mesh = new THREE.Mesh(geometry, material);
-      const [sx, sy, sz] = toScene(
-        x,
-        y,
-        BUILD_BOTTOM + height / 2
-      );
+      const [sx, sy, sz] = toScene(x, y, BUILD_BOTTOM + height / 2);
 
       mesh.position.set(sx, sy, sz);
       group.add(mesh);
@@ -312,17 +269,13 @@ function buildCore(core) {
   const w = core.x[1] - core.x[0];
   const d = core.y[1] - core.y[0];
 
-  const geometry = new THREE.BoxGeometry(
-    w,
-    height,
-    d
-  );
+  const geometry = new THREE.BoxGeometry(w, height, d);
 
   const material = new THREE.MeshStandardMaterial({
     color: COLOR.ink,
     transparent: true,
     opacity: 0.5,
-    roughness: 1
+    roughness: 1,
   });
 
   const mesh = new THREE.Mesh(geometry, material);
@@ -330,11 +283,7 @@ function buildCore(core) {
   const cx = (core.x[0] + core.x[1]) / 2;
   const cy = (core.y[0] + core.y[1]) / 2;
 
-  const [sx, sy, sz] = toScene(
-    cx,
-    cy,
-    BUILD_BOTTOM + height / 2
-  );
+  const [sx, sy, sz] = toScene(cx, cy, BUILD_BOTTOM + height / 2);
 
   mesh.position.set(sx, sy, sz);
 
@@ -348,19 +297,16 @@ function buildSlabMesh(floor, isSelected) {
   const geometry = new THREE.BoxGeometry(
     FOOTPRINT_LEN - 0.4,
     height - 0.3,
-    FOOTPRINT_WID - 0.4
+    FOOTPRINT_WID - 0.4,
   );
 
-  const baseColor =
-    floor.kind === "parking"
-      ? COLOR.line
-      : COLOR.muted;
+  const baseColor = floor.kind === "parking" ? COLOR.line : COLOR.muted;
 
   const material = new THREE.MeshStandardMaterial({
     color: baseColor,
     transparent: true,
     opacity: isSelected ? 0.55 : 0.16,
-    roughness: 0.8
+    roughness: 0.8,
   });
 
   const mesh = new THREE.Mesh(geometry, material);
@@ -368,13 +314,13 @@ function buildSlabMesh(floor, isSelected) {
   const [sx, sy, sz] = toScene(
     FOOTPRINT_LEN / 2,
     FOOTPRINT_WID / 2,
-    z0 + height / 2
+    z0 + height / 2,
   );
 
   mesh.position.set(sx, sy, sz);
   mesh.userData = {
     selectable: true,
-    floorId: floor.id
+    floorId: floor.id,
   };
 
   return mesh;
@@ -387,23 +333,14 @@ function unitColor(unit) {
   return COLOR.paper;
 }
 
-function buildUnitMesh(
-  floor,
-  unit,
-  isFloorSelected,
-  isUnitSelected
-) {
+function buildUnitMesh(floor, unit, isFloorSelected, isUnitSelected) {
   const [z0, z1] = floor.z;
   const height = z1 - z0;
 
   const w = unit.bounds.x[1] - unit.bounds.x[0];
   const d = unit.bounds.y[1] - unit.bounds.y[0];
 
-  const geometry = new THREE.BoxGeometry(
-    w - 0.5,
-    height - 0.3,
-    d - 0.5
-  );
+  const geometry = new THREE.BoxGeometry(w - 0.5, height - 0.3, d - 0.5);
 
   let opacity = 0.1;
 
@@ -415,31 +352,23 @@ function buildUnitMesh(
     transparent: true,
     opacity,
     roughness: 0.6,
-    emissive: isUnitSelected
-      ? unitColor(unit)
-      : 0x000000,
-    emissiveIntensity: isUnitSelected ? 0.35 : 0
+    emissive: isUnitSelected ? unitColor(unit) : 0x000000,
+    emissiveIntensity: isUnitSelected ? 0.35 : 0,
   });
 
   const mesh = new THREE.Mesh(geometry, material);
 
-  const cx =
-    (unit.bounds.x[0] + unit.bounds.x[1]) / 2;
-  const cy =
-    (unit.bounds.y[0] + unit.bounds.y[1]) / 2;
+  const cx = (unit.bounds.x[0] + unit.bounds.x[1]) / 2;
+  const cy = (unit.bounds.y[0] + unit.bounds.y[1]) / 2;
 
-  const [sx, sy, sz] = toScene(
-    cx,
-    cy,
-    z0 + height / 2
-  );
+  const [sx, sy, sz] = toScene(cx, cy, z0 + height / 2);
 
   mesh.position.set(sx, sy, sz);
 
   mesh.userData = {
     selectable: true,
     floorId: floor.id,
-    unitId: unit.id
+    unitId: unit.id,
   };
 
   if (isUnitSelected) {
@@ -448,8 +377,8 @@ function buildUnitMesh(
     const outline = new THREE.LineSegments(
       edges,
       new THREE.LineBasicMaterial({
-        color: COLOR.brass
-      })
+        color: COLOR.brass,
+      }),
     );
 
     mesh.add(outline);

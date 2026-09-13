@@ -1,10 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { loginUser } from "@/app/actions/auth";
 
 export default function LoginForm() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+    if (isLoggedIn === "true") {
+      router.replace("/");
+    }
+  }, [router]);
+
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -27,20 +38,18 @@ export default function LoginForm() {
 
       const result = await loginUser(formData);
 
+      // Login failed
       if (!result.success) {
         setMessage(result.message);
         return;
       }
 
-      // Store only safe user information
+      // Login succeeded
       localStorage.setItem("authUser", JSON.stringify(result.user));
-
       localStorage.setItem("isLoggedIn", "true");
 
-      setMessage("Login successful!");
-
-      // Redirect if you want
-      // window.location.href = "/";
+      // Redirect to homepage
+      router.push("/");
     } catch (error) {
       console.error(error);
       setMessage("Something went wrong. Please try again.");
@@ -59,7 +68,6 @@ export default function LoginForm() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {/* Email */}
-
         <div>
           <label className="mb-2 block font-medium">E-mail</label>
 
@@ -82,7 +90,6 @@ export default function LoginForm() {
         </div>
 
         {/* Employee ID */}
-
         <div>
           <label className="mb-2 block font-medium">Employee ID</label>
 
@@ -103,7 +110,6 @@ export default function LoginForm() {
         </div>
 
         {/* Password */}
-
         <div>
           <label className="mb-2 block font-medium">Password</label>
 
@@ -124,13 +130,11 @@ export default function LoginForm() {
         </div>
 
         {/* Message */}
-
         {message && (
           <p className="rounded-xl bg-gray-100 px-4 py-3 text-sm">{message}</p>
         )}
 
         {/* Submit */}
-
         <button
           type="submit"
           disabled={loading}

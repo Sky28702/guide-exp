@@ -8,32 +8,96 @@ const MortgageSchema = new mongoose.Schema(
     amount: { type: Number, required: true },
     dateIssued: { type: String, required: true },
     status: { type: String, default: "active" },
-    borrower: { type: String, default: "" }
+    borrower: { type: String, default: "" },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const UnitSchema = new mongoose.Schema(
   {
-    id: { type: String, required: true },
-    code: { type: String, required: true },
-    type: { type: String, required: true },
-    area: { type: Number, required: true },
-    bounds: {
-      x: { type: [Number], required: true },
-      y: { type: [Number], required: true }
+    id: {
+      type: String,
+      required: true,
     },
-    side: { type: String, required: true },
-    owner: { type: String, default: null },
+
+    code: {
+      type: String,
+      required: true,
+    },
+
+    type: {
+      type: String,
+      required: true,
+    },
+
+    area: {
+      type: Number,
+      required: true,
+    },
+
+    bounds: {
+      x: {
+        type: [Number],
+        required: true,
+      },
+
+      y: {
+        type: [Number],
+        required: true,
+      },
+    },
+
+    side: {
+      type: String,
+      required: true,
+    },
+
+    owner: {
+      type: String,
+      default: null,
+    },
+
     status: {
       type: String,
       enum: ["owned", "vacant", "disputed"],
-      default: "owned"
+      default: "owned",
     },
-    disputeNote: { type: String, default: "" },
-    mortgages: { type: [MortgageSchema], default: [] }
+
+    disputeNote: {
+      type: String,
+      default: "",
+    },
+
+    mortgages: {
+      type: [MortgageSchema],
+      default: [],
+    },
+
+    // -----------------------------
+    // COLLATERAL
+    // -----------------------------
+
+    collateralHolder: {
+      name: {
+        type: String,
+        default: "",
+      },
+
+      registeredAt: {
+        type: Date,
+        default: null,
+      },
+    },
+
+    collateralStatus: {
+      type: String,
+      enum: ["CLEAR", "REGISTERED", "ENCUMBERED"],
+      default: "CLEAR",
+    },
   },
-  { _id: false }
+  {
+    _id: false,
+  },
 );
 
 const FloorSchema = new mongoose.Schema(
@@ -44,9 +108,9 @@ const FloorSchema = new mongoose.Schema(
     kind: { type: String, required: true },
     z: { type: [Number], required: true },
     units: { type: [UnitSchema], default: [] },
-    capacity: { type: Number, default: null }
+    capacity: { type: Number, default: null },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const CollateralSchema = new mongoose.Schema(
@@ -60,23 +124,23 @@ const CollateralSchema = new mongoose.Schema(
       lng: { type: Number, required: true },
       footprint: {
         length: { type: Number, required: true },
-        width: { type: Number, required: true }
+        width: { type: Number, required: true },
       },
-      registryStatus: { type: String, required: true }
+      registryStatus: { type: String, required: true },
     },
     structure: {
       columnGrid: {
         xs: { type: [Number], default: [] },
-        ys: { type: [Number], default: [] }
+        ys: { type: [Number], default: [] },
       },
       cores: { type: [mongoose.Schema.Types.Mixed], default: [] },
       corridor: { type: mongoose.Schema.Types.Mixed, default: null },
-      levels: { type: mongoose.Schema.Types.Mixed, default: null }
+      levels: { type: mongoose.Schema.Types.Mixed, default: null },
     },
     floors: { type: [FloorSchema], default: [] },
-    banks: { type: [String], default: [] }
+    banks: { type: [String], default: [] },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.models.Collateral ||

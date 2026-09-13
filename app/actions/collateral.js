@@ -289,3 +289,82 @@ export async function addMortgage({ unitId, mortgage }) {
 
   return toPlain(collateral);
 }
+
+export async function registerCollateral({ unitId, holderName }) {
+  await connectDB();
+
+  if (!unitId) {
+    throw new Error("Unit ID is required");
+  }
+
+  if (!holderName?.trim()) {
+    throw new Error("Collateral holder name is required");
+  }
+
+  const collateral = await Collateral.findOne();
+
+  if (!collateral) {
+    throw new Error("Collateral register not initialized");
+  }
+
+  let foundUnit = false;
+
+  for (const floor of collateral.floors) {
+    const unit = floor.units.find((unit) => unit.id === unitId);
+
+    if (!unit) continue;
+
+    unit.collateralHolder = {
+      name: holderName.trim(),
+      registeredAt: new Date(),
+    };
+
+    unit.collateralStatus = "REGISTERED";
+
+    foundUnit = true;
+    break;
+  }
+
+  if (!foundUnit) {
+    throw new Error(`Unit ${unitId} not found`);
+  }
+
+  await collateral.save();
+
+  return JSON.parse(JSON.stringify(collateral));
+}
+export async function clearCollateral(unitId) {
+  await connectDB();
+
+  const collateral = await Collateral.findOne();
+
+  if (!collateral) {
+    throw new Error("Collateral register not initialized");
+  }
+
+  let foundUnit = false;
+
+  for (const floor of collateral.floors) {
+    const unit = floor.units.find((unit) => unit.id === unitId);
+
+    if (!unit) continue;
+
+    unit.collateralHolder = {
+      name: "",
+      registeredAt: null,
+    };
+
+    unit.collateralStatus = "CLEAR";
+
+    foundUnit = true;
+    break;
+  }
+
+  if (!foundUnit) {
+    throw new Error(`Unit ${unitId} not found`);
+  }
+
+  await collateral.save();
+
+  return JSON.parse(JSON.stringify(collateral));
+}

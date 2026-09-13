@@ -2,12 +2,12 @@ export default function TitleBlock({ parcel, selectedFloor, selectedUnit }) {
   const today = new Date().toLocaleDateString("en-IN", {
     day: "2-digit",
     month: "short",
-    year: "numeric"
+    year: "numeric",
   });
 
   return (
     <header className="border-b border-line bg-panel">
-      <div className="mx-auto max-w-[1400px] px-4 md:px-6 py-3 flex flex-col md:flex-row md:items-center gap-3 md:gap-8">
+      <div className="mx-auto max-w-350 px-4 md:px-6 py-3 flex flex-col md:flex-row md:items-center gap-3 md:gap-8">
         <div>
           <h1 className="text-lg md:text-xl font-semibold leading-tight">
             3D ULPIN &amp; Vertical Property Mapping

@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { signupUser } from "@/app/actions/auth";
+import { useRouter } from "next/navigation";
 
 export default function SignupForm() {
+  const router = useRouter();
+
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -14,6 +17,15 @@ export default function SignupForm() {
     reset,
     formState: { errors },
   } = useForm();
+
+  // Prevent logged-in users from accessing signup
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+    if (isLoggedIn === "true") {
+      router.replace("/");
+    }
+  }, [router]);
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -34,12 +46,11 @@ export default function SignupForm() {
         return;
       }
 
-      setMessage("Account created successfully!");
-
+      // Account created successfully
       reset();
 
-      // Optional:
-      // window.location.href = "/login";
+      // Redirect to login
+      router.replace("/login");
     } catch (error) {
       console.error(error);
       setMessage("Something went wrong. Please try again.");
@@ -58,7 +69,6 @@ export default function SignupForm() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {/* Name */}
-
         <div>
           <label className="mb-2 block font-medium">
             Name (first and last)
@@ -79,7 +89,6 @@ export default function SignupForm() {
         </div>
 
         {/* Employee ID */}
-
         <div>
           <label className="mb-2 block font-medium">Employee ID</label>
 
@@ -100,7 +109,6 @@ export default function SignupForm() {
         </div>
 
         {/* Email */}
-
         <div>
           <label className="mb-2 block font-medium">E-mail</label>
 
@@ -123,7 +131,6 @@ export default function SignupForm() {
         </div>
 
         {/* Password */}
-
         <div>
           <label className="mb-2 block font-medium">Password</label>
 
@@ -148,13 +155,11 @@ export default function SignupForm() {
         </div>
 
         {/* Message */}
-
         {message && (
           <p className="rounded-xl bg-gray-100 px-4 py-3 text-sm">{message}</p>
         )}
 
         {/* Submit */}
-
         <button
           type="submit"
           disabled={loading}
