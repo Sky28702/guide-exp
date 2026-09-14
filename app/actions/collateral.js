@@ -2,6 +2,11 @@
 
 import connectDB from "../lib/mongodb";
 import Collateral from "../models/Collateral";
+import {
+  FIELD_LIMITS,
+  cleanText,
+  validatePositiveNumber,
+} from "../lib/formValidation";
 
 const parcel = {
   id: "DL-CP-0142",
@@ -261,6 +266,23 @@ export async function addMortgage({ unitId, mortgage }) {
     throw new Error("unitId and mortgage are required");
   }
 
+  const safeUnitId = cleanText(unitId, 80).trim();
+  const safeBank = cleanText(mortgage.bank, 80).trim();
+  const safeLoanId = cleanText(mortgage.loanId, 80).trim();
+  const safeBorrower = cleanText(
+    mortgage.borrower,
+    FIELD_LIMITS.borrower,
+  ).trim();
+  const safeAmount = validatePositiveNumber(
+    mortgage.amount,
+    "Loan amount",
+    999999999999,
+  );
+
+  if (!safeBank || !safeLoanId) {
+    throw new Error("Bank and loan ID are required.");
+  }
+
   await connectDB();
 
   const collateral = await Collateral.findOne({ "parcel.id": parcel.id });
@@ -272,10 +294,18 @@ export async function addMortgage({ unitId, mortgage }) {
   let found = false;
 
   for (const floor of collateral.floors) {
-    const unit = floor.units.find((item) => item.id === unitId);
+    const unit = floor.units.find((item) => item.id === safeUnitId);
 
     if (unit) {
-      unit.mortgages.push(mortgage);
+      unit.mortgages.push({
+        id: cleanText(mortgage.id, 80).trim(),
+        bank: safeBank,
+        loanId: safeLoanId,
+        amount: safeAmount,
+        dateIssued: cleanText(mortgage.dateIssued, 20).trim(),
+        status: "active",
+        borrower: safeBorrower,
+      });
       found = true;
       break;
     }
@@ -293,11 +323,17 @@ export async function addMortgage({ unitId, mortgage }) {
 export async function registerCollateral({ unitId, holderName }) {
   await connectDB();
 
-  if (!unitId) {
+  const safeUnitId = cleanText(unitId, 80).trim();
+  const safeHolderName = cleanText(
+    holderName,
+    FIELD_LIMITS.collateralHolder,
+  ).trim();
+
+  if (!safeUnitId) {
     throw new Error("Unit ID is required");
   }
 
-  if (!holderName?.trim()) {
+  if (!safeHolderName) {
     throw new Error("Collateral holder name is required");
   }
 
@@ -310,12 +346,12 @@ export async function registerCollateral({ unitId, holderName }) {
   let foundUnit = false;
 
   for (const floor of collateral.floors) {
-    const unit = floor.units.find((unit) => unit.id === unitId);
+    const unit = floor.units.find((unit) => unit.id === safeUnitId);
 
     if (!unit) continue;
 
     unit.collateralHolder = {
-      name: holderName.trim(),
+      name: safeHolderName,
       registeredAt: new Date(),
     };
 
@@ -326,7 +362,7 @@ export async function registerCollateral({ unitId, holderName }) {
   }
 
   if (!foundUnit) {
-    throw new Error(`Unit ${unitId} not found`);
+    throw new Error(`Unit ${safeUnitId} not found`);
   }
 
   await collateral.save();
@@ -335,6 +371,8 @@ export async function registerCollateral({ unitId, holderName }) {
 }
 export async function clearCollateral(unitId) {
   await connectDB();
+
+  const safeUnitId = cleanText(unitId, 80).trim();
 
   const collateral = await Collateral.findOne();
 
@@ -345,7 +383,7 @@ export async function clearCollateral(unitId) {
   let foundUnit = false;
 
   for (const floor of collateral.floors) {
-    const unit = floor.units.find((unit) => unit.id === unitId);
+    const unit = floor.units.find((unit) => unit.id === safeUnitId);
 
     if (!unit) continue;
 
@@ -361,7 +399,7 @@ export async function clearCollateral(unitId) {
   }
 
   if (!foundUnit) {
-    throw new Error(`Unit ${unitId} not found`);
+    throw new Error(`Unit ${safeUnitId} not found`);
   }
 
   await collateral.save();

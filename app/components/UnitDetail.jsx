@@ -13,7 +13,7 @@ export default function UnitDetail({ parcel, floor, unit }) {
   return (
     <div className="border border-line p-3 flex flex-col gap-3">
       <div>
-        <div className="text-[10px] uppercase tracking-[0.14em] text-muted">
+        <div className="text-[13px] uppercase tracking-[0.14em] text-muted">
           3D-ULPIN
         </div>
         <div className="font-mono text-brass text-base leading-tight break-all">
@@ -21,7 +21,7 @@ export default function UnitDetail({ parcel, floor, unit }) {
         </div>
       </div>
 
-      <dl className="grid grid-cols-2 gap-x-3 gap-y-1.5 text-xs">
+      <dl className="grid grid-cols-2 gap-x-3 gap-y-1.5 text-[13px]">
         <Row label="Floor" value={floor.label} />
         <Row label="Unit" value={`${unit.code} · ${unit.type}`} />
         <Row label="Area" value={`${unit.area} sq m`} />
@@ -30,18 +30,18 @@ export default function UnitDetail({ parcel, floor, unit }) {
       </dl>
 
       {unit.status === "disputed" && (
-        <div className="border border-alert/50 bg-alert/10 text-alert text-xs px-2.5 py-2">
+        <div className="border border-alert/50 bg-alert/10 text-alert text-[13px] px-2.5 py-2">
           {unit.disputeNote}
         </div>
       )}
 
       <div>
-        <div className="text-[10px] uppercase tracking-[0.14em] text-muted mb-1.5">
+        <div className="text-[13px] uppercase tracking-[0.14em] text-muted mb-1.5">
           Registered liens ({unit.mortgages.length})
         </div>
 
         {unit.mortgages.length === 0 ? (
-          <div className="text-xs text-muted">
+          <div className="text-[13px] text-muted">
             No mortgage currently tagged to this ULPIN.
           </div>
         ) : (
@@ -49,7 +49,7 @@ export default function UnitDetail({ parcel, floor, unit }) {
             {unit.mortgages.map((mortgage) => (
               <li
                 key={mortgage.id}
-                className="border border-line px-2.5 py-1.5 text-xs"
+                className="border border-line px-2.5 py-1.5 text-[13px]"
               >
                 <div className="flex justify-between">
                   <span className="font-medium">{mortgage.bank}</span>

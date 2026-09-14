@@ -30,12 +30,12 @@ export default function BuildingPanel({
               }`}
             >
               <span className="flex items-baseline gap-2">
-                <span className="font-mono text-xs text-muted">
+                <span className="font-mono text-[13px] text-muted">
                   {floor.id.padStart(2, "0")}
                 </span>
                 <span className="text-sm font-medium">{floor.label}</span>
               </span>
-              <span className="text-[11px] text-muted font-mono">
+              <span className="text-[13px] text-muted font-mono">
                 {floor.sublabel}
               </span>
             </button>
@@ -50,7 +50,7 @@ export default function BuildingPanel({
                 />
 
                 <div className="my-1.5 h-4 flex items-center justify-center">
-                  <span className="text-[9px] uppercase tracking-[0.14em] text-muted/60 border-t border-dashed border-line w-full text-center pt-1">
+                  <span className="text-[13px] uppercase tracking-[0.14em] text-muted/60 border-t border-dashed border-line w-full text-center pt-1">
                     corridor
                   </span>
                 </div>
@@ -65,13 +65,13 @@ export default function BuildingPanel({
             )}
 
             {isSelected && floor.kind === "parking" && (
-              <div className="px-3 pb-3 text-[11px] text-muted font-mono">
+              <div className="px-3 pb-3 text-[13px] text-muted font-mono">
                 {floor.capacity} bays · not individually parcelled in this prototype
               </div>
             )}
 
             {isSelected && floor.kind === "lobby" && (
-              <div className="px-3 pb-3 text-[11px] text-muted font-mono">
+              <div className="px-3 pb-3 text-[13px] text-muted font-mono">
                 Common area — no mortgageable units
               </div>
             )}
@@ -107,8 +107,8 @@ function UnitRow({ units, floorId, selectedUnitId, onSelectUnit }) {
                 title="Active mortgage on record"
               />
             )}
-            <div className="text-xs font-mono">{unit.code}</div>
-            <div className="text-[10px] text-muted">{unit.type}</div>
+            <div className="text-[13px] font-mono">{unit.code}</div>
+            <div className="text-[13px] text-muted">{unit.type}</div>
           </button>
         );
       })}

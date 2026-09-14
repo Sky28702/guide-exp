@@ -13,7 +13,7 @@ export default function RequestStatus({ requests }) {
         className="flex w-full items-center justify-between border-b border-line px-4 py-3 text-left"
       >
         <div>
-          <p className="text-[10px] uppercase tracking-[0.16em] text-muted">
+          <p className="text-[13px] uppercase tracking-[0.16em] text-muted">
             Building Requests
           </p>
 
@@ -29,7 +29,7 @@ export default function RequestStatus({ requests }) {
       {open && (
         <div className="divide-y divide-line">
           {requests.length === 0 ? (
-            <div className="px-4 py-8 text-center text-xs text-muted">
+            <div className="px-4 py-8 text-center text-[13px] text-muted">
               No building requests yet.
             </div>
           ) : (
@@ -54,13 +54,13 @@ function Request({ request }) {
             {request.buildingName}
           </p>
 
-          <p className="mt-1 text-[10px] font-mono text-muted">
+          <p className="mt-1 text-[13px] font-mono text-muted">
             {request.buildingId}
           </p>
         </div>
 
         <span
-          className={`text-[10px] font-mono ${
+          className={`text-[13px] font-mono ${
             done ? "text-green-600" : "text-amber-600"
           }`}
         >
@@ -74,7 +74,7 @@ function Request({ request }) {
         <StatusItem label="Building Data" done={request.status === "DONE"} />
       </div>
 
-      <p className="mt-3 text-[10px] text-muted">{request.address}</p>
+      <p className="mt-3 text-[13px] text-muted">{request.address}</p>
     </div>
   );
 }
@@ -82,10 +82,10 @@ function Request({ request }) {
 function StatusItem({ label, done }) {
   return (
     <div className="border border-line px-3 py-2">
-      <p className="text-[9px] uppercase tracking-wider text-muted">{label}</p>
+      <p className="text-[13px] uppercase tracking-wider text-muted">{label}</p>
 
       <p
-        className={`mt-1 text-[10px] font-mono ${
+        className={`mt-1 text-[13px] font-mono ${
           done ? "text-green-600" : "text-muted"
         }`}
       >

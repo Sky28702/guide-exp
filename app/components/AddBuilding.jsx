@@ -52,7 +52,7 @@ export default function AddBuilding({ onSubmit, onClose }) {
 
   return (
     <div className="fixed inset-0 z-1000 flex items-center justify-center bg-black/30 rounded-2xl">
-      <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-gray-200 bg-white text-gray-900 shadow-2xl rounded-2xl">
+      <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-gray-200 bg-white text-gray-900 shadow-2xl">
         {/* HEADER */}
 
         <div className="flex items-center justify-between border-b border-line px-5 py-4">

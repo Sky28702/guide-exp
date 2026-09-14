@@ -9,8 +9,8 @@ export default function TitleBlock({ parcel, selectedFloor, selectedUnit }) {
     <header className="border-b border-line bg-panel">
       <div className="mx-auto max-w-350 px-4 md:px-6 py-3 flex flex-col md:flex-row md:items-center gap-3 md:gap-8">
         <div>
-          <h1 className="text-lg md:text-xl font-semibold leading-tight">
-            3D ULPIN &amp; Vertical Property Mapping
+          <h1 className="text-lg md:text-4xl font-semibold leading-tight">
+            BhuVistar 3D
           </h1>
           <p className="text-muted text-xs mt-0.5">
             Geospatial collateral verification prototype — {parcel.name}

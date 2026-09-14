@@ -277,13 +277,13 @@ export default function ClientApp() {
             Authentication required
           </p>
 
-          <p className="mt-2 text-xs text-muted">
+          <p className="mt-2 text-[13px] text-muted">
             Please log in or create an account to access the building register.
           </p>
 
           <a
             href="/login"
-            className="mt-5 inline-block border border-paper bg-paper px-5 py-2 text-xs font-semibold text-background"
+            className="mt-5 inline-block border border-paper bg-paper px-5 py-2 text-[13px] font-semibold text-background"
           >
             Go to Login
           </a>
@@ -337,7 +337,7 @@ export default function ClientApp() {
           <div className="border border-line bg-panel p-6">
             <div className="flex items-center justify-between gap-3 border border-line bg-panel px-4 py-3">
               <div>
-                <p className="text-[10px] uppercase tracking-[0.18em] text-muted">
+                <p className="text-[13px] uppercase tracking-[0.18em] text-muted">
                   Building Registry
                 </p>
 
@@ -393,15 +393,16 @@ export default function ClientApp() {
         selectedFloor={selectedFloor}
       />
 
-      {/* BUILDING REQUEST BAR */}
+      <div className="project-content">
+        {/* BUILDING REQUEST BAR */}
 
-      <div className="mx-auto max-w-350 px-4 md:px-6 mt-4">
+        <div className="mx-auto max-w-350 px-4 md:px-6 mt-4">
         <div className="flex flex-col gap-3">
           {/* TOP ACTION */}
 
           <div className="flex items-center justify-between gap-3 border border-line bg-panel px-4 py-3">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.18em] text-muted">
+              <p className="text-[13px] uppercase tracking-[0.18em] text-muted">
                 Building Registry
               </p>
 
@@ -524,6 +525,8 @@ export default function ClientApp() {
         </section>
       </main>
 
+      </div>
+
       {/* ADD BUILDING */}
 
       {showAddBuilding && (
@@ -579,11 +582,11 @@ function Panel({ title, subtitle, children, grow = false }) {
       }`}
     >
       <div className="px-4 py-2.5 border-b border-line flex items-baseline justify-between gap-4">
-        <h2 className="text-sm font-semibold tracking-wide text-paper">
+        <h2 className="text-[15px] font-semibold tracking-wide text-paper">
           {title}
         </h2>
 
-        <span className="text-[11px] text-muted font-mono hidden sm:block">
+        <span className="text-[15px] text-muted font-mono hidden sm:block">
           {subtitle}
         </span>
       </div>

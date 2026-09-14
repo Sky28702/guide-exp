@@ -148,3 +148,12 @@ button {
   background: var(--accent);
   color: white;
 }
+
+/* Project typography baseline: readable UI everywhere below the navigation/header. */
+.project-content,
+.project-content button,
+.project-content input,
+.project-content textarea,
+.project-content select {
+  font-size: 14px;
+}
