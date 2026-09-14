@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 3D ULPIN & Vertical Property Mapping System
 
-## Getting Started
+A prototype for **3D ULPIN generation, vertical property mapping, and unit-level collateral verification**.
 
-First, run the development server:
+The system extends conventional 2D parcel mapping into the vertical dimension by representing a property as a hierarchy of:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**Surface Parcel → Building → Floor → Unit → 3D Spatial Identity**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+It is designed around the concept of creating a unique spatial identity for individual units within multi-storey properties and associating ownership and financial records directly with those units.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Problem
 
-## Learn More
+Conventional land-record systems primarily represent properties as 2D surface parcels.
 
-To learn more about Next.js, take a look at the following resources:
+This creates difficulties when dealing with:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Multi-storey apartments
+- Vertically divided properties
+- Individual floor/unit ownership
+- Parking and other spatially separated property rights
+- Mortgage and collateral verification
+- Ambiguous or duplicated property records
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+A property may occupy the same surface footprint while containing multiple independently owned units vertically.
 
-## Deploy on Vercel
+This prototype explores how a **3D cadastral representation** can solve this problem by giving individual units their own spatial identity.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Prototype
+
+The prototype demonstrates a software workflow for:
+
+1. Visualizing a surface parcel using a 2D GIS map.
+2. Representing a building as multiple floors.
+3. Dividing floors into individual units.
+4. Selecting and inspecting individual units.
+5. Representing the building in a 3D environment.
+6. Associating ownership information with individual units.
+7. Registering collateral against a specific unit.
+8. Recording mortgages/lien information at unit level.
+9. Clearing collateral when required.
+10. Submitting new buildings for future survey/GIS processing.
+11. Tracking the status of submitted building requests.
+
+The central idea is that collateral and ownership should be associated with the **specific vertical property**, rather than only the underlying surface parcel.
+
+---
+
+## Key Features
+
+### 1. Surface Parcel Mapping
+
+A 2D GIS layer represents the surface parcel and building footprint.
+
+The prototype uses **Leaflet** for interactive map visualization.
+
+### 2. Vertical Property Register
+
+Buildings are organized floor-by-floor.
+
+Each floor contains individual units that can be selected and inspected.
+
+Example:
+
+```text
+Building
+├── Floor 1
+│   ├── Unit 01
+│   ├── Unit 02
+│   └── Unit 03
+│
+├── Floor 2
+│   ├── Unit 01
+│   ├── Unit 02
+│   └── Unit 03
+│
+└── Floor 3
+    ├── Unit 01
+    ├── Unit 02
+    └── Unit 03
